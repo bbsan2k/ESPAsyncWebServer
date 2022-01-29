@@ -178,15 +178,6 @@ void AsyncWebServerRequest::_onData(void *buf, size_t len){
   }
 }
 
-void AsyncWebServerRequest::_removeNotInterestingHeaders(){
-  if (_interestingHeaders.containsIgnoreCase("ANY")) return; // nothing to do
-  for(const auto& header: _headers){
-      if(!_interestingHeaders.containsIgnoreCase(header->name().c_str())){
-        _headers.remove(header);
-      }
-  }
-}
-
 void AsyncWebServerRequest::_onPoll(){
   //os_printf("p\n");
   if(_response != NULL && _client != NULL && _client->canSend() && !_response->_finished()){
@@ -568,7 +559,6 @@ void AsyncWebServerRequest::_parseLine(){
       //end of headers
       _server->_rewriteRequest(this);
       _server->_attachHandler(this);
-      _removeNotInterestingHeaders();
       if(_expectingContinue){
         const char * response = "HTTP/1.1 100 Continue\r\n\r\n";
         _client->write(response, os_strlen(response));
