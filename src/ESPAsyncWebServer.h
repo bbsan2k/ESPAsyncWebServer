@@ -155,7 +155,6 @@ class AsyncWebServerRequest {
     String _boundary;
     String _authorization;
     RequestedConnectionType _reqconntype;
-    void _removeNotInterestingHeaders();
     bool _isDigest;
     bool _isMultipart;
     bool _isPlainPost;
